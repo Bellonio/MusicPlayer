@@ -3,6 +3,7 @@
 
     <string name="btnChooseDir">Choose the music directory</string>
     <string name="swicthMusicsInDir">Read directory inside directory</string>
+    <string name="hintAutoTxt">Search a particular music. Name:</string>
     <string name="defaultTimer">00:00</string>
     <string name="timerDivider">/</string>
     <string name="durationDivider">:</string>

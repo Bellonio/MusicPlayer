@@ -117,4 +117,19 @@ public class MusicReader {
             ) );
         }
     }
+
+    public int findMusicFromName(String musicName){
+        //Se fossero sempre ordinate alfabeticamente potrei controllare
+        // solo la prima lettera e sapere se andare a dx o sx della meta
+        // della lista ma visto che possono anche essere in ordine
+        // casuale non posso farlo... devo ciclare tutta la lista
+        int i = 0;
+        while(i < musics_name.size()){
+            if(musics_name.get(i).equals(musicName)){
+                break;
+            }
+            i++;
+        }
+        return i;
+    }
 }

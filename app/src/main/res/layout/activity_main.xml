@@ -9,6 +9,7 @@
     tools:context=".MainActivity">
 
     <LinearLayout
+        android:id="@+id/layoutMusicChooser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -31,20 +32,35 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/layoutListView"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_marginTop="5dp"
-        android:orientation="horizontal">
+        android:orientation="vertical">
+
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTxtMusic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_weight="5"
+            android:completionThreshold="1"
+            android:hint="@string/hintAutoTxt"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnChooseDir" />
 
         <ListView
             android:id="@+id/listViewMusic"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/layout_seekbar"
+        android:id="@+id/layoutSeekbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -54,13 +70,14 @@
         <Chronometer
             android:id="@+id/chronometer"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:text="@string/defaultTimer" />
 
         <SeekBar
             android:id="@+id/seekBar"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
             android:layout_weight="1" />
@@ -68,70 +85,80 @@
         <TextView
             android:id="@+id/lblTmpTotale"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="0"
+            android:gravity="center"
             android:text="@string/defaultTimer" />
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/layoutMusicControls"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/imgBtnPrev"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:backgroundTint="#00FFFFFF"
-            app:srcCompat="@drawable/previous" />
-
-        <ImageButton
-            android:id="@+id/imgBtnPlay"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="#00FFFFFF"
-            app:srcCompat="@drawable/not_play" />
+            android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/imgBtnNext"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:backgroundTint="#00FFFFFF"
-            app:srcCompat="@drawable/next" />
+            <ImageButton
+                android:id="@+id/imgBtnPrev"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:backgroundTint="#00FFFFFF"
+                app:srcCompat="@drawable/previous" />
+
+            <ImageButton
+                android:id="@+id/imgBtnPlay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#00FFFFFF"
+                app:srcCompat="@drawable/not_play" />
+
+            <ImageButton
+                android:id="@+id/imgBtnNext"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:backgroundTint="#00FFFFFF"
+                app:srcCompat="@drawable/next" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/imgBtnShuffle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:backgroundTint="#00FFFFFF"
+                app:srcCompat="@drawable/not_shuffle" />
+
+            <ImageButton
+                android:id="@+id/imgBtnPause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#00FFFFFF"
+                app:srcCompat="@drawable/pause" />
+
+            <ImageButton
+                android:id="@+id/imgBtnOrder"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:backgroundTint="#00FFFFFF"
+                app:srcCompat="@drawable/not_ordered" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <ImageButton
-            android:id="@+id/imgBtnShuffle"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:backgroundTint="#00FFFFFF"
-            app:srcCompat="@drawable/not_shuffle" />
-
-        <ImageButton
-            android:id="@+id/imgBtnPause"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="#00FFFFFF"
-            app:srcCompat="@drawable/pause" />
-
-        <ImageButton
-            android:id="@+id/imgBtnOrder"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:backgroundTint="#00FFFFFF"
-            app:srcCompat="@drawable/not_ordered" />
-
-    </LinearLayout>
 </LinearLayout>

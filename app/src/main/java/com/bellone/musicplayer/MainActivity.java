@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,8 +15,13 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.CompoundButton;
@@ -44,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Button btnChooseDir = null;
     private Switch switchMusicInsideDir = null;
+    private AutoCompleteTextView autoCompleteTxtMusic = null;
     private String musicDirPath = null;
 
     private ListView listViewMusic = null;
@@ -87,6 +94,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+
+        LinearLayout lListView = findViewById(R.id.layoutListView);
+
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) lListView.getLayoutParams();
+        params.height = height / 2;
+        lListView.setLayoutParams(params);
+
         context = this;
         permission = false;
 
@@ -94,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btnChooseDir = findViewById(R.id.btnChooseDir);
         switchMusicInsideDir = findViewById(R.id.swicthMusicsInDir);
+        autoCompleteTxtMusic = findViewById(R.id.autoCompleteTxtMusic);
         listViewMusic = findViewById(R.id.listViewMusic);
 
         imgPrev = findViewById(R.id.imgBtnPrev);
@@ -103,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imgPause = findViewById(R.id.imgBtnPause);
         imgOrder = findViewById(R.id.imgBtnOrder);
 
-        layout_seekbar = findViewById(R.id.layout_seekbar);
+        layout_seekbar = findViewById(R.id.layoutSeekbar);
         chronometer = findViewById(R.id.chronometer);
         seekBar = findViewById(R.id.seekBar);
         lblTmpTotale = findViewById(R.id.lblTmpTotale);
@@ -156,6 +174,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         createMusicPlayer(true);
                     }
+                }
+            });
+
+            autoCompleteTxtMusic.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    int pos = musicReader.findMusicFromName(
+                            String.valueOf(adapterView.getItemAtPosition(i)) );
+                    autoCompleteTxtMusic.setText("");
+
+                    musicPlayer.go_to_music(pos);
+                    play();
+
+                    hideKeyBoard();
                 }
             });
 
@@ -283,6 +315,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private void hideKeyBoard(){
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(
+                Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = this.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(context);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
     private void resetAll_andAskMusicDir(){
         if(musicPlayer != null) {
             musicPlayer.stopMusic();
@@ -345,7 +389,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 musicReader.getMusicsName());
         listViewMusic.setAdapter(music_adapter);
 
-        if(musicReader != null && musicReader.getMusics_path().size() > 0) {
+        autoCompleteTxtMusic.setAdapter(new ArrayAdapter<String>(context,
+                android.R.layout.simple_selectable_list_item, musicReader.getMusicsName()));
+
+        if(musicReader.getMusics_path().size() > 0) {
             musicPlayer = new MusicPlayer(MainActivity.this, musicReader, shuffle);
 
             createAppNotificationManger();
