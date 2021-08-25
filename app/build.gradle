@@ -9,8 +9,8 @@ android {
         applicationId "com.bellone.musicplayer"
         minSdkVersion 22
         targetSdkVersion 30
-        versionCode 4
-        versionName "3.0"
+        versionCode 5
+        versionName "3.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

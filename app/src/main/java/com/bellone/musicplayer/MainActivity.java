@@ -16,7 +16,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -49,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private Button btnChooseDir = null;
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
     private Switch switchMusicInsideDir = null;
     private AutoCompleteTextView autoCompleteTxtMusic = null;
     private String musicDirPath = null;
@@ -176,6 +176,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }
             });
+
+            /*autoCompleteTxtMusic.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    autoCompleteTxtMusic.setAdapter(new ArrayAdapter<String>(context,
+                            R.layout.music_searching,
+                            musicReader.getMusicsFromString(editable.toString())));
+                }
+            });*/
 
             autoCompleteTxtMusic.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -390,9 +403,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         listViewMusic.setAdapter(music_adapter);
 
         autoCompleteTxtMusic.setAdapter(new ArrayAdapter<String>(context,
-                android.R.layout.simple_selectable_list_item, musicReader.getMusicsName()));
+                android.R.layout.simple_list_item_1,
+                musicReader.getMusicsName() ));
 
         if(musicReader.getMusics_path().size() > 0) {
+            ((LinearLayout)(findViewById(R.id.layoutListView))).setVisibility(View.VISIBLE);
+            ((LinearLayout)(findViewById(R.id.layoutMusicControls))).setVisibility(View.VISIBLE);
+
             musicPlayer = new MusicPlayer(MainActivity.this, musicReader, shuffle);
 
             createAppNotificationManger();

@@ -110,12 +110,50 @@ public class MusicReader {
             musics = musics_path1;
         }
 
+        String name;
         for (String m:musics) {
-            musics_name.add( m.substring(
+            name = m.substring(
                     m.lastIndexOf("/")+1,
                     m.lastIndexOf(".mp")
-            ) );
+            );
+            name = name.replaceAll("'", "");
+            musics_name.add( formatta(name) );
         }
+    }
+
+    public String formatta(String name){
+        String newString = "";
+        char[] music = name.toCharArray();
+        for(int i=0; i<name.length(); i++){
+            if(music[i] == '_' || music[i] == '-'){
+                music[i] = ' ';
+                newString += music[i];
+            }else {
+                //Maiuscolo da 65 a 90
+                //Minuscolo da 97 a 122
+
+                //Controllo se il nome è scritto in CamelCase
+                if (i > 0 && i < name.length() - 1 && (music[i] >= 65 && music[i] <= 90)
+                        && (music[i - 1] >= 97 && music[i - 1] <= 122)
+                        && (music[i + 1] >= 97 && music[i + 1] <= 122)) {
+
+                    newString += " "+music[i];
+                }else if(i > 0 && i < name.length() - 1 && (music[i] >= 65 && music[i] <= 90)
+                        && (music[i - 1] >= 97 && music[i - 1] <= 122)
+                        && (music[i + 1] >= 65 && music[i + 1] <= 90)){
+
+                    //Ad esempio: BackstreetBoysIWantItThatWay"
+                    // ==> "Backstreet Boys I Want It That Way"
+
+                    newString += " "+music[i]+" ";
+                }else{
+                    //aggiungo la lettera così com'è
+                    newString += music[i];
+                }
+            }
+        }
+
+        return newString;
     }
 
     public int findMusicFromName(String musicName){
